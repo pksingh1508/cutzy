@@ -96,6 +96,12 @@ const MainLayout = () => {
               headerShown: false
             }}
           />
+          <Stack.Screen
+            name="additionalPath"
+            options={{
+              headerShown: false
+            }}
+          />
         </Stack>
         <StatusBar style="dark" />
       </ClerkLoaded>

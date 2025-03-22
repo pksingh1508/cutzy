@@ -15,8 +15,8 @@ interface Props {
 const ChooseLocation = ({ lat, lgt, setLat, setLgt }: Props) => {
   const [visible, setVisible] = useState(false);
   const [coordinate, setCoordinate] = useState({
-    latitude: 26.716442,
-    longitude: 83.448663
+    latitude: lat !== 0.0 ? lat : 26.716442,
+    longitude: lgt !== 0.0 ? lgt : 83.448663
   });
 
   // useEffect to set the latitude and longitude when user select on map

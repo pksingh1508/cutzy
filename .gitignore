@@ -36,3 +36,9 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+
+android
+
+cursor
+.cursor

@@ -1,8 +1,10 @@
 import { Alert, StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAuth, useUser } from "@clerk/clerk-expo";
 import { router } from "expo-router";
 import { supabase } from "@/utils/supabase";
+import { useUserData } from "@/store/useUserData";
+import LottieView from "lottie-react-native";
 
 const MainPage = () => {
   const { isSignedIn } = useAuth();
@@ -11,6 +13,8 @@ const MainPage = () => {
   const [role, setRole] = useState("");
   const { user } = useUser();
   const [loading, setLoading] = useState(true); // Loading state
+  const { setUserData } = useUserData();
+  const animation = useRef<LottieView>(null);
 
   const redirectUser = async () => {
     if (isSignedIn && user) {
@@ -27,6 +31,15 @@ const MainPage = () => {
         Alert.alert("Server Error!", error.message);
         setLoading(false);
         return;
+      }
+
+      if (data) {
+        setUserData({
+          username: data.username,
+          phone: data.phone,
+          id: data.id,
+          isPro: data.isPro
+        });
       }
 
       if (!data) {
@@ -61,8 +74,22 @@ const MainPage = () => {
 
   if (loading) {
     return (
-      <View>
-        <Text>Loading...</Text>
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+        <LottieView
+          autoPlay
+          ref={animation}
+          style={{
+            width: "30%",
+            height: "30%"
+          }}
+          source={require("../assets/images/loading.json")}
+        />
       </View>
     );
   }

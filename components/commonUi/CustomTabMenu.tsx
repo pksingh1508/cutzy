@@ -8,11 +8,20 @@ interface Props {
   onPress: () => void;
   icon: keyof typeof MaterialIconsType.glyphMap;
   iconBackgroundColor: string;
+  isLeftIcon?: boolean;
+  loading?: boolean;
 }
 
-const CustomTabMenu = ({ name, onPress, icon, iconBackgroundColor }: Props) => {
+const CustomTabMenu = ({
+  name,
+  onPress,
+  icon,
+  iconBackgroundColor,
+  isLeftIcon,
+  loading
+}: Props) => {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} disabled={loading}>
       <View style={styles.main}>
         <View style={styles.left}>
           <View style={[styles.icon, { backgroundColor: iconBackgroundColor }]}>
@@ -20,7 +29,9 @@ const CustomTabMenu = ({ name, onPress, icon, iconBackgroundColor }: Props) => {
           </View>
           <Text style={styles.name}>{name}</Text>
         </View>
-        <MaterialIcons name="keyboard-arrow-right" size={24} color="black" />
+        {isLeftIcon && (
+          <MaterialIcons name="keyboard-arrow-right" size={24} color="black" />
+        )}
       </View>
     </TouchableOpacity>
   );

@@ -2,8 +2,10 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import ProfileSetting from "@/components/barber/ProfileSetting";
+import { useUserData } from "@/store/useUserData";
 
 const Profile = () => {
+  const { username, phone } = useUserData();
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -16,15 +18,11 @@ const Profile = () => {
       />
       <View style={styles.imageBox}>
         <View style={styles.image}>
-          <Image
-            source={require("../../assets/images/barber.jpeg")}
-            width={30}
-            height={30}
-          />
+          <Image source={require("../../assets/images/barber.png")} />
         </View>
         <View>
-          <Text style={styles.name}>Pawan Kumar</Text>
-          <Text style={styles.phone}>+91-7275996676</Text>
+          <Text style={styles.name}>{username}</Text>
+          <Text style={styles.phone}>{phone}</Text>
         </View>
       </View>
       <ProfileSetting />
@@ -44,10 +42,9 @@ const styles = StyleSheet.create({
     height: "100%"
   },
   image: {
-    width: 180,
-    height: 180,
+    width: 160,
+    height: 160,
     borderRadius: "50%",
-    overflow: "hidden",
     alignItems: "center",
     justifyContent: "center"
   },

@@ -1,17 +1,20 @@
-import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import React from "react";
 import CustomTabMenu from "../commonUi/CustomTabMenu";
-import AwesomeAlert from "react-native-awesome-alerts";
-import { useClerk } from "@clerk/clerk-expo";
+import LogoutTab from "./LogoutTab";
 import { router } from "expo-router";
 
 const ProfileSetting = () => {
-  const { signOut } = useClerk();
-  const settingHandler = () => {};
-  const editProfileHandler = () => {};
-  const addBarberHandler = () => {};
+  const settingHandler = () => {
+    router.push("/additionalPath/settings");
+  };
+  const editProfileHandler = () => {
+    router.push("/additionalPath/editProfile");
+  };
+  const addBarberHandler = () => {
+    router.push("/additionalPath/addBarber");
+  };
   const updateBarberHandler = () => {};
-  const logoutHandler = async () => {};
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: 45 }}>
       <View style={styles.container}>
@@ -20,31 +23,30 @@ const ProfileSetting = () => {
           onPress={settingHandler}
           icon="settings"
           iconBackgroundColor="#15a56e"
+          isLeftIcon
         />
         <CustomTabMenu
           name="Edit Profile"
           onPress={editProfileHandler}
           icon="people-alt"
           iconBackgroundColor="#397cea"
+          isLeftIcon
         />
         <CustomTabMenu
           name="Add Barber"
           onPress={addBarberHandler}
           icon="add-circle"
           iconBackgroundColor="#2e2523"
+          isLeftIcon
         />
         <CustomTabMenu
           name="Update Barber"
           onPress={updateBarberHandler}
           icon="update"
           iconBackgroundColor="#ca79dc"
+          isLeftIcon
         />
-        <CustomTabMenu
-          name="Logout"
-          onPress={logoutHandler}
-          icon="logout"
-          iconBackgroundColor="#de0032"
-        />
+        <LogoutTab />
       </View>
     </ScrollView>
   );
