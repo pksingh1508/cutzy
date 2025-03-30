@@ -17,7 +17,7 @@ const UserOnBoarding = () => {
     try {
       setLoading(true);
       // create user
-      const { error } = await supabase.from("user").insert([
+      const { error } = await supabase.from("users").insert([
         {
           username: userName,
           phone: phone,

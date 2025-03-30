@@ -1,4 +1,12 @@
-import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View
+} from "react-native";
 import React, { useState } from "react";
 import CustomInput from "../commonUi/CustomInput";
 import CustomButton from "../commonUi/CustomButton";
@@ -22,7 +30,7 @@ const BarberOnBoarding = () => {
     try {
       setLoading(true);
       // create user
-      const { error } = await supabase.from("user").insert([
+      const { error } = await supabase.from("users").insert([
         {
           username: userName,
           phone: phone,
@@ -63,7 +71,10 @@ const BarberOnBoarding = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ gap: 10 }}>
           <View>
@@ -102,7 +113,7 @@ const BarberOnBoarding = () => {
           loading={loading}
         />
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

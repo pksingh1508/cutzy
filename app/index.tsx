@@ -21,7 +21,7 @@ const MainPage = () => {
       const phone = user?.primaryPhoneNumber?.phoneNumber;
       console.log("phone", phone);
       const { data, error } = await supabase
-        .from("user")
+        .from("users")
         .select("*")
         .eq("phone", phone)
         .maybeSingle();
