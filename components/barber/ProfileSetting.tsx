@@ -5,8 +5,8 @@ import LogoutTab from "./LogoutTab";
 import { router } from "expo-router";
 
 const ProfileSetting = () => {
-  const settingHandler = () => {
-    router.push("/additionalPath/settings");
+  const addServicesHandler = () => {
+    router.push("/additionalPath/addServices");
   };
   const editProfileHandler = () => {
     router.push("/additionalPath/editProfile");
@@ -19,13 +19,6 @@ const ProfileSetting = () => {
     <ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: 45 }}>
       <View style={styles.container}>
         <CustomTabMenu
-          name="Settings"
-          onPress={settingHandler}
-          icon="settings"
-          iconBackgroundColor="#15a56e"
-          isLeftIcon
-        />
-        <CustomTabMenu
           name="Edit Profile"
           onPress={editProfileHandler}
           icon="people-alt"
@@ -37,6 +30,13 @@ const ProfileSetting = () => {
           onPress={addBarberHandler}
           icon="add-circle"
           iconBackgroundColor="#2e2523"
+          isLeftIcon
+        />
+        <CustomTabMenu
+          name="Add Services"
+          onPress={addServicesHandler}
+          icon="cleaning-services"
+          iconBackgroundColor="#15a56e"
           isLeftIcon
         />
         <CustomTabMenu

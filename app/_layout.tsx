@@ -5,6 +5,7 @@ import * as SecureStore from "expo-secure-store";
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
+import Toast from "react-native-toast-message";
 
 const tokenCache = {
   async getToken(key: string) {
@@ -104,6 +105,7 @@ const MainLayout = () => {
           />
         </Stack>
         <StatusBar style="dark" />
+        <Toast />
       </ClerkLoaded>
     </ClerkProvider>
   );

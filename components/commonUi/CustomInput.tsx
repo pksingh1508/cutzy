@@ -1,6 +1,5 @@
 import { InputModeOptions, StyleSheet, TextInput } from "react-native";
 import React from "react";
-import Colors from "@/constants/Colors";
 
 interface textInputProps {
   placeholder: string;
@@ -20,8 +19,8 @@ const CustomInput = ({
   return (
     <TextInput
       placeholder={placeholder}
-      placeholderTextColor="#343844"
-      cursorColor="#ccc"
+      placeholderTextColor="#6c757d"
+      cursorColor="#343844"
       inputMode={inputMode}
       keyboardAppearance="dark"
       style={[styles.input, customStyle]}

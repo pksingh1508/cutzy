@@ -91,7 +91,7 @@ const LoginPage = () => {
       />
       <SafeAreaView style={styles.safeView}>
         <View>
-          <Text style={styles.logo}>ZapCut</Text>
+          <Text style={styles.logo}>TrimFit</Text>
           <View>
             <Text style={styles.yourNumberText}>What's your number?</Text>
             <Text style={{ fontFamily: "pop-r" }}>

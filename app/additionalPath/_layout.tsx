@@ -17,9 +17,9 @@ const AdditionalLayout = () => {
       }}
     >
       <Stack.Screen
-        name="settings"
+        name="addServices"
         options={{
-          title: "Settings"
+          title: "Add Services"
         }}
       />
       <Stack.Screen
