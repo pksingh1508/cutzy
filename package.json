@@ -46,7 +46,9 @@
     "react-native-switch-toggle": "^2.2.1",
     "react-native-toast-message": "^2.2.1",
     "react-native-web": "~0.19.13",
-    "zustand": "^5.0.3"
+    "zustand": "^5.0.3",
+    "react-native-gesture-handler": "~2.20.2",
+    "@gorhom/bottom-sheet": "^5"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
