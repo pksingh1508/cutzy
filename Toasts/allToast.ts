@@ -33,3 +33,20 @@ export const addBarberSuccessToast = () => {
     }
   });
 };
+
+export const serviceAddedSuccessfullyToast = () => {
+  Toast.show({
+    type: "success",
+    visibilityTime: 2000,
+    text1: "Success",
+    text2: "Service added successfully",
+    text1Style: {
+      fontSize: 15,
+      fontFamily: "park-m"
+    },
+    text2Style: {
+      fontSize: 13,
+      fontFamily: "pop-m"
+    }
+  });
+};

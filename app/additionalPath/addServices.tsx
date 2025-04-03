@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button,
   Modal,
   ScrollView,
@@ -7,7 +8,7 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import CustomButton from "@/components/commonUi/CustomButton";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import {
@@ -22,6 +23,10 @@ import {
   durations,
   priceRange
 } from "@/constants/BarberService";
+import { useUserData } from "@/store/useUserData";
+import { supabase } from "@/utils/supabase";
+import { serviceAddedSuccessfullyToast } from "@/Toasts/allToast";
+import { router } from "expo-router";
 
 const AddServices = () => {
   const [services, setServices] = useState([
@@ -31,6 +36,10 @@ const AddServices = () => {
   const [duration, setDuration] = useState(durations[0].value);
   const [price, setPrice] = useState(priceRange[0].value);
   const [index, setIndex] = useState(0);
+  const { phone } = useUserData();
+  const [barberData, setBarberData] = useState<any>([]);
+  const [barberId, setBarberId] = useState();
+  const [loading, setLoading] = useState(false);
 
   const nextPressHandler = () => {
     setIndex(index + 1);
@@ -43,6 +52,78 @@ const AddServices = () => {
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
+
+  // fetch the shop id using mobile number and then fetch all the barber in that shop
+  useEffect(() => {
+    getAllBarbers();
+  }, []);
+
+  const getAllBarbers = async () => {
+    const { data, error } = await supabase
+      .from("shops")
+      .select("id")
+      .eq("phone", phone)
+      .single();
+    if (error) {
+      Alert.alert("Error while fetching shop_id", error.message);
+      return;
+    }
+    const shopId = data.id;
+    const { data: barberData, error: barberError } = await supabase
+      .from("barbers")
+      .select("*")
+      .eq("shops_id", shopId);
+    if (barberError) {
+      Alert.alert(
+        "Error while fetching barbers in the shop",
+        barberError.message
+      );
+      return;
+    }
+    setBarberData(barberData);
+    // convert the data into the format of the picker
+    const formattedData = barberData.map((item: any) => ({
+      label: item.name,
+      value: item.id
+    }));
+    setBarberData(formattedData);
+  };
+
+  // submit the data to the database
+  const submitHandler = async () => {
+    setLoading(true);
+    try {
+      // filter out any incomplete entries
+      const filteredServices = services.filter(
+        (service) => service.name && service.price && service.duration
+      );
+      // check the valid service length
+      if (filteredServices.length === 0) {
+        Alert.alert("Error", "Please add at least one service.");
+        setIndex(0);
+        return;
+      }
+      // insert the baber id in the filtered services array
+      const servicesWithBarberId = filteredServices.map((service) => ({
+        ...service,
+        barber_id: barberId
+      }));
+      // insert the data into the database
+      const { error } = await supabase
+        .from("services")
+        .insert(servicesWithBarberId);
+      if (error) {
+        Alert.alert("Error while adding the services", error.message);
+        return;
+      }
+      serviceAddedSuccessfullyToast();
+      router.replace("../(barbers)/profile");
+    } catch (error) {
+      Alert.alert("Error", "Error while adding the services");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <GestureHandlerRootView style={styles.sheetContainer}>
@@ -177,8 +258,29 @@ const AddServices = () => {
       )}
       {index === 1 && (
         <View style={styles.nextPageContainer}>
-          <ScrollView>
-            <Text style={styles.selectBarberText}>Select Barber</Text>
+          <ScrollView style={{ padding: 14 }}>
+            <Text style={styles.selectBarberText}>Select Barber to Add</Text>
+            <View style={styles.pickerContainer}>
+              <Text>Choose Barber:</Text>
+              <Picker
+                selectedValue={barberId}
+                mode="dropdown"
+                dropdownIconColor="black"
+                onValueChange={(itemValue, itemIndex) => setBarberId(itemValue)}
+                style={styles.picker}
+                itemStyle={styles.pickerItem}
+              >
+                {barberData.map((item: any, index: any) => (
+                  <Picker.Item
+                    key={index}
+                    label={item.label}
+                    value={item.value}
+                    fontFamily="pop-m"
+                    style={{ fontSize: 16 }}
+                  />
+                ))}
+              </Picker>
+            </View>
           </ScrollView>
           <View style={styles.backSubmitBtnBox}>
             <CustomButton
@@ -190,7 +292,7 @@ const AddServices = () => {
             />
             <CustomButton
               title="Submit"
-              onPress={() => {}}
+              onPress={submitHandler}
               customStyle={{ width: "40%" }}
             />
           </View>
