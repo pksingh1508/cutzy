@@ -34,6 +34,12 @@ const AdditionalLayout = () => {
           title: "Edit Profile"
         }}
       />
+      <Stack.Screen
+        name="updateBarber"
+        options={{
+          title: "Update Barber"
+        }}
+      />
     </Stack>
   );
 };

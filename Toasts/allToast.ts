@@ -50,3 +50,20 @@ export const serviceAddedSuccessfullyToast = () => {
     }
   });
 };
+
+export const barberDeletedSuccessToast = () => {
+  Toast.show({
+    type: "success",
+    visibilityTime: 2000,
+    text1: "Success",
+    text2: "Barber deleted successfully",
+    text1Style: {
+      fontSize: 15,
+      fontFamily: "park-m"
+    },
+    text2Style: {
+      fontSize: 13,
+      fontFamily: "pop-m"
+    }
+  });
+};

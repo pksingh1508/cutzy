@@ -14,7 +14,9 @@ const ProfileSetting = () => {
   const addBarberHandler = () => {
     router.push("/additionalPath/addBarber");
   };
-  const updateBarberHandler = () => {};
+  const updateBarberHandler = () => {
+    router.push("/additionalPath/updateBarber");
+  };
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: 45 }}>
       <View style={styles.container}>
