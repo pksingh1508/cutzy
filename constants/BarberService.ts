@@ -8,7 +8,27 @@ export const barberServices = [
   { label: "Hair Treatment", value: "hair-treatment" },
   { label: "Face Massage", value: "face-massage" },
   { label: "Head Massage", value: "head-massage" },
-  { label: "Hair Wash", value: "hair-wash" }
+  { label: "Hair Wash", value: "hair-wash" },
+  { label: "Women's Haircut", value: "womens-haircut" },
+  { label: "Men's Haircut", value: "mens-haircut" },
+  { label: "Highlights", value: "highlights" },
+  { label: "Balayage", value: "balayage" },
+  { label: "Blowout", value: "blowout" },
+  { label: "Perm", value: "perm" },
+  { label: "Hair Extensions", value: "hair-extensions" },
+  { label: "Updo", value: "updo" },
+  { label: "Scalp Treatment", value: "scalp-treatment" },
+  { label: "Eyebrow Shaping", value: "eyebrow-shaping" },
+  { label: "Hot Towel Treatment", value: "hot-towel-treatment" },
+  { label: "Facial", value: "facial" },
+  { label: "Deep Conditioning", value: "deep-conditioning" },
+  { label: "Mustache Trim", value: "mustache-trim" },
+  { label: "Hair Straightening", value: "hair-straightening" },
+  { label: "Bridal Hair", value: "bridal-hair" },
+  { label: "Bang Trim", value: "bang-trim" },
+  { label: "Neck Shave", value: "neck-shave" },
+  { label: "Hair Texturizing", value: "hair-texturizing" },
+  { label: "Beard Coloring", value: "beard-coloring" }
 ] as const;
 // Use 'as const' to make the array readonly and infer literal types
 

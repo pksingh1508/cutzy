@@ -1,10 +1,10 @@
-import { Alert, StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import { Alert, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
 import { useAuth, useUser } from "@clerk/clerk-expo";
 import { router } from "expo-router";
 import { supabase } from "@/utils/supabase";
 import { useUserData } from "@/store/useUserData";
-import LottieView from "lottie-react-native";
+import CustomLoading from "@/components/commonUi/CustomLoading";
 
 const MainPage = () => {
   const { isSignedIn } = useAuth();
@@ -14,7 +14,6 @@ const MainPage = () => {
   const { user } = useUser();
   const [loading, setLoading] = useState(true); // Loading state
   const { setUserData } = useUserData();
-  const animation = useRef<LottieView>(null);
 
   const redirectUser = async () => {
     if (isSignedIn && user) {
@@ -73,25 +72,7 @@ const MainPage = () => {
   }, [loading, role, isLoggedIn, isOnboarded]); // Redirect based on loading state and user data
 
   if (loading) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          alignItems: "center",
-          justifyContent: "center"
-        }}
-      >
-        <LottieView
-          autoPlay
-          ref={animation}
-          style={{
-            width: "30%",
-            height: "30%"
-          }}
-          source={require("../assets/images/loading.json")}
-        />
-      </View>
-    );
+    return <CustomLoading />;
   }
 
   return (

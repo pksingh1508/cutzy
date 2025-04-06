@@ -42,7 +42,7 @@ const ProfileSetting = () => {
           isLeftIcon
         />
         <CustomTabMenu
-          name="Update Barber"
+          name="Delete Barber"
           onPress={updateBarberHandler}
           icon="update"
           iconBackgroundColor="#ca79dc"

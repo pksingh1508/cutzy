@@ -1,6 +1,6 @@
 import React from "react";
 import { Tabs } from "expo-router";
-import { MaterialIcons } from "@expo/vector-icons";
+import { Entypo, MaterialIcons } from "@expo/vector-icons";
 import { Text } from "react-native";
 import Colors from "@/constants/Colors";
 
@@ -11,7 +11,7 @@ const BarberLayout = () => {
         tabBarActiveTintColor: "#3a82f7",
         tabBarInactiveTintColor: "gray",
         tabBarStyle: {
-          backgroundColor: "#c1c4d4",
+          backgroundColor: "#f4f4ff",
           height: 65,
           paddingBottom: 10,
           paddingTop: 10
@@ -24,7 +24,7 @@ const BarberLayout = () => {
           marginBottom: 0
         },
         headerStyle: {
-          backgroundColor: "#cdd0d8"
+          backgroundColor: "#f4f4ff"
         },
         headerTitleStyle: {
           color: "#3a82f7",
@@ -71,7 +71,7 @@ const BarberLayout = () => {
         options={{
           title: "Dashboard",
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="dashboard" size={size} color={color} />
+            <Entypo name="bar-graph" size={size} color={color} />
           )
         }}
       />
