@@ -7,11 +7,11 @@ import {
   Alert
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import appointmentData from "../../constants/appointmentSeed";
 import { supabase } from "@/utils/supabase";
 import useShopData from "@/store/useShopData";
 import { useUserData } from "@/store/useUserData";
 import CustomLoading from "@/components/commonUi/CustomLoading";
+import AppointmentCard from "@/components/barber/AppointmentCard";
 
 const Appointment = () => {
   const [isPendingExpanded, setIsPendingExpanded] = useState(false);
@@ -20,11 +20,12 @@ const Appointment = () => {
   const [loading, setLoading] = useState(true);
   const { setShopData } = useShopData();
   const { phone } = useUserData();
+  const [fetchDataUsingThisState, setFetchDataUsingThisState] = useState(false);
 
   useEffect(() => {
     // fetch all the appointment form the database
     getAllAppointments();
-  }, []);
+  }, [fetchDataUsingThisState]);
 
   const getAllAppointments = async () => {
     setLoading(true);
@@ -74,18 +75,6 @@ const Appointment = () => {
     (apt) => apt.status === "confirmed"
   );
 
-  const AppointmentCard = ({ appointment }: any) => (
-    <View style={styles.appointmentCard}>
-      <Text style={styles.userName}>{appointment.user_name}</Text>
-      <Text style={styles.details}>Service: {appointment.service_name}</Text>
-      <Text style={styles.details}>Barber: {appointment.barber_name}</Text>
-      <Text style={styles.details}>
-        Time: {new Date(appointment.starttime).toLocaleTimeString()} -
-        {new Date(appointment.endtime).toLocaleTimeString()}
-      </Text>
-    </View>
-  );
-
   if (loading) {
     return <CustomLoading />;
   }
@@ -107,8 +96,11 @@ const Appointment = () => {
           <View style={styles.sectionContent}>
             {pendingAppointments.map((appointment, index) => (
               <AppointmentCard
-                key={appointment.user_id}
+                key={appointment.id}
                 appointment={appointment}
+                type="pending"
+                stateVal={fetchDataUsingThisState}
+                setStateVal={setFetchDataUsingThisState}
               />
             ))}
           </View>
@@ -131,8 +123,11 @@ const Appointment = () => {
           <View style={styles.sectionContent}>
             {confirmedAppointments.map((appointment, index) => (
               <AppointmentCard
-                key={appointment.user_id}
+                key={appointment.id}
                 appointment={appointment}
+                type="confirmed"
+                stateVal={fetchDataUsingThisState}
+                setStateVal={setFetchDataUsingThisState}
               />
             ))}
           </View>
@@ -165,23 +160,6 @@ const styles = StyleSheet.create({
   },
   sectionContent: {
     marginBottom: 16
-  },
-  appointmentCard: {
-    backgroundColor: "#e2e4ff",
-    padding: 16,
-    marginVertical: 8,
-    borderRadius: 8,
-    elevation: 1
-  },
-  userName: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 8
-  },
-  details: {
-    fontSize: 14,
-    color: "#666",
-    marginBottom: 4
   },
   singleContainer: {
     backgroundColor: "#f4f4ff",

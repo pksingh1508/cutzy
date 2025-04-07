@@ -67,3 +67,54 @@ export const barberDeletedSuccessToast = () => {
     }
   });
 };
+
+export const appointmentConfirmedToast = () => {
+  Toast.show({
+    type: "success",
+    visibilityTime: 2000,
+    text1: "Success",
+    text2: "Appointment confirmed successfully",
+    text1Style: {
+      fontSize: 15,
+      fontFamily: "park-m"
+    },
+    text2Style: {
+      fontSize: 13,
+      fontFamily: "pop-m"
+    }
+  });
+};
+
+export const appointmentRejectedToast = () => {
+  Toast.show({
+    type: "error",
+    visibilityTime: 2000,
+    text1: "Success",
+    text2: "Appointment rejected successfully",
+    text1Style: {
+      fontSize: 15,
+      fontFamily: "park-m"
+    },
+    text2Style: {
+      fontSize: 13,
+      fontFamily: "pop-m"
+    }
+  });
+};
+
+export const appointmentCompletedToast = () => {
+  Toast.show({
+    type: "success",
+    visibilityTime: 2000,
+    text1: "Success",
+    text2: "Appointment completed successfully",
+    text1Style: {
+      fontSize: 15,
+      fontFamily: "park-m"
+    },
+    text2Style: {
+      fontSize: 13,
+      fontFamily: "pop-m"
+    }
+  });
+};
