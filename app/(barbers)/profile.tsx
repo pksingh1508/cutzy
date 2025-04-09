@@ -3,19 +3,12 @@ import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import ProfileSetting from "@/components/barber/ProfileSetting";
 import { useUserData } from "@/store/useUserData";
+import Colors from "@/constants/Colors";
 
 const Profile = () => {
   const { username, phone } = useUserData();
   return (
     <View style={styles.container}>
-      <LinearGradient
-        colors={[
-          "rgba(205,208,216,255)",
-          "rgba(216,221,229,255)",
-          "rgba(193,196,212,255)"
-        ]}
-        style={styles.background}
-      />
       <View style={styles.imageBox}>
         <View style={styles.image}>
           <Image source={require("../../assets/images/barber.png")} />
@@ -32,7 +25,8 @@ const Profile = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: Colors.background
   },
   background: {
     position: "absolute",

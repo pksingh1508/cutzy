@@ -4,14 +4,16 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
-  Alert
+  Alert,
+  RefreshControl
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/utils/supabase";
 import useShopData from "@/store/useShopData";
 import { useUserData } from "@/store/useUserData";
 import CustomLoading from "@/components/commonUi/CustomLoading";
 import AppointmentCard from "@/components/barber/AppointmentCard";
+import useAppointmentStore from "@/store/useAppointmentData";
 
 const Appointment = () => {
   const [isPendingExpanded, setIsPendingExpanded] = useState(false);
@@ -21,6 +23,9 @@ const Appointment = () => {
   const { setShopData } = useShopData();
   const { phone } = useUserData();
   const [fetchDataUsingThisState, setFetchDataUsingThisState] = useState(false);
+  const { setAppointments } = useAppointmentStore();
+  const [refreshing, setRefreshing] = useState(false);
+  const [isShopOpen, setIsShopOpen] = useState(false);
 
   useEffect(() => {
     // fetch all the appointment form the database
@@ -45,6 +50,7 @@ const Appointment = () => {
       }
       // set the shop data in the store
       setShopData(shopData.id, shopData.shop_name);
+      setIsShopOpen(shopData.isOpen);
       // get the appointments using the shop id
       let shopId = shopData.id;
       const { data, error } = await supabase
@@ -58,6 +64,8 @@ const Appointment = () => {
       }
       // set the appointments in the state
       setAppointmentData(data);
+      // store the appoinment data in the useAppointmentData store
+      setAppointments(data);
     } catch (error) {
       console.log("Error fetching appointments:", error);
       Alert.alert(
@@ -75,65 +83,102 @@ const Appointment = () => {
     (apt) => apt.status === "confirmed"
   );
 
+  // This is the function that will be called when the user pulls down to refresh
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    getAllAppointments().then(() => {
+      // When fetchData completes, set refreshing back to false
+      setRefreshing(false);
+    });
+  }, []);
+
+  if (!isShopOpen) {
+    return (
+      <View
+        style={[
+          styles.container,
+          { justifyContent: "center", alignItems: "center" }
+        ]}
+      >
+        <Text style={{ fontSize: 18, color: "#000" }}>
+          Your shop is currently closed.
+        </Text>
+        <Text style={{ fontSize: 18, color: "#000" }}>
+          Please open it to view appointments.
+        </Text>
+      </View>
+    );
+  }
+
   if (loading) {
     return <CustomLoading />;
   }
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <View style={styles.singleContainer}>
-        {/* Pending Appointments Section */}
-        <TouchableOpacity
-          style={styles.sectionHeader}
-          onPress={() => setIsPendingExpanded(!isPendingExpanded)}
-        >
-          <Text style={styles.sectionTitle}>
-            Pending Appointments ({pendingAppointments.length})
-          </Text>
-          <Text>{isPendingExpanded ? "▼" : "▶"}</Text>
-        </TouchableOpacity>
-        {isPendingExpanded && (
-          <View style={styles.sectionContent}>
-            {pendingAppointments.map((appointment, index) => (
-              <AppointmentCard
-                key={appointment.id}
-                appointment={appointment}
-                type="pending"
-                stateVal={fetchDataUsingThisState}
-                setStateVal={setFetchDataUsingThisState}
-              />
-            ))}
-          </View>
-        )}
-      </View>
-      {/* Divider */}
-      <View style={{ height: 1, backgroundColor: "#ccc", marginVertical: 8 }} />
-      {/* Confirmed Appointments Section */}
-      <View style={[styles.singleContainer, { marginBottom: 40 }]}>
-        <TouchableOpacity
-          style={[styles.sectionHeader, { backgroundColor: "#DCEDC8" }]}
-          onPress={() => setIsConfirmedExpanded(!isConfirmedExpanded)}
-        >
-          <Text style={styles.sectionTitle}>
-            Confirmed Appointments ({confirmedAppointments.length})
-          </Text>
-          <Text>{isConfirmedExpanded ? "▼" : "▶"}</Text>
-        </TouchableOpacity>
-        {isConfirmedExpanded && (
-          <View style={styles.sectionContent}>
-            {confirmedAppointments.map((appointment, index) => (
-              <AppointmentCard
-                key={appointment.id}
-                appointment={appointment}
-                type="confirmed"
-                stateVal={fetchDataUsingThisState}
-                setStateVal={setFetchDataUsingThisState}
-              />
-            ))}
-          </View>
-        )}
-      </View>
-    </ScrollView>
+    <>
+      <ScrollView
+        style={styles.container}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <View style={styles.singleContainer}>
+          {/* Pending Appointments Section */}
+          <TouchableOpacity
+            style={styles.sectionHeader}
+            onPress={() => setIsPendingExpanded(!isPendingExpanded)}
+          >
+            <Text style={styles.sectionTitle}>
+              Pending Appointments ({pendingAppointments.length})
+            </Text>
+            <Text>{isPendingExpanded ? "▼" : "▶"}</Text>
+          </TouchableOpacity>
+          {isPendingExpanded && (
+            <View style={styles.sectionContent}>
+              {pendingAppointments.map((appointment, index) => (
+                <AppointmentCard
+                  key={appointment.id}
+                  appointment={appointment}
+                  type="pending"
+                  stateVal={fetchDataUsingThisState}
+                  setStateVal={setFetchDataUsingThisState}
+                />
+              ))}
+            </View>
+          )}
+        </View>
+        {/* Divider */}
+        <View
+          style={{ height: 1, backgroundColor: "#ccc", marginVertical: 8 }}
+        />
+        {/* Confirmed Appointments Section */}
+        <View style={[styles.singleContainer, { marginBottom: 40 }]}>
+          <TouchableOpacity
+            style={[styles.sectionHeader, { backgroundColor: "#DCEDC8" }]}
+            onPress={() => setIsConfirmedExpanded(!isConfirmedExpanded)}
+          >
+            <Text style={styles.sectionTitle}>
+              Confirmed Appointments ({confirmedAppointments.length})
+            </Text>
+            <Text>{isConfirmedExpanded ? "▼" : "▶"}</Text>
+          </TouchableOpacity>
+          {isConfirmedExpanded && (
+            <View style={styles.sectionContent}>
+              {confirmedAppointments.map((appointment, index) => (
+                <AppointmentCard
+                  key={appointment.id}
+                  appointment={appointment}
+                  type="confirmed"
+                  stateVal={fetchDataUsingThisState}
+                  setStateVal={setFetchDataUsingThisState}
+                />
+              ))}
+            </View>
+          )}
+        </View>
+      </ScrollView>
+    </>
   );
 };
 
