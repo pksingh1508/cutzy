@@ -5,15 +5,22 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
-  RefreshControl
+  RefreshControl,
+  Switch
 } from "react-native";
-import React, { useCallback, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useState
+} from "react";
 import { supabase } from "@/utils/supabase";
 import useShopData from "@/store/useShopData";
 import { useUserData } from "@/store/useUserData";
 import CustomLoading from "@/components/commonUi/CustomLoading";
 import AppointmentCard from "@/components/barber/AppointmentCard";
 import useAppointmentStore from "@/store/useAppointmentData";
+import { useNavigation } from "expo-router";
 
 const Appointment = () => {
   const [isPendingExpanded, setIsPendingExpanded] = useState(false);
@@ -26,11 +33,12 @@ const Appointment = () => {
   const { setAppointments } = useAppointmentStore();
   const [refreshing, setRefreshing] = useState(false);
   const [isShopOpen, setIsShopOpen] = useState(false);
+  const navigation = useNavigation();
 
   useEffect(() => {
     // fetch all the appointment form the database
     getAllAppointments();
-  }, [fetchDataUsingThisState]);
+  }, [fetchDataUsingThisState, isShopOpen]);
 
   const getAllAppointments = async () => {
     setLoading(true);
@@ -82,6 +90,45 @@ const Appointment = () => {
   const confirmedAppointments = appointmentData.filter(
     (apt) => apt.status === "confirmed"
   );
+
+  const toggleShopStatus = async () => {
+    try {
+      const { error } = await supabase
+        .from("shops")
+        .update({ isOpen: !isShopOpen })
+        .eq("phone", phone);
+      if (error) {
+        Alert.alert("Error", "Failed to update shop status. Please try again.");
+      } else {
+        setIsShopOpen(!isShopOpen);
+      }
+    } catch (error) {
+      console.log("Error updating shop status:", error);
+      Alert.alert(
+        "Error",
+        "Failed to update shop status. Please try again later."
+      );
+    }
+  };
+
+  // this is used to set the header title
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => (
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <Text style={{ fontSize: 18, marginRight: 10, color: "#005fec" }}>
+            {isShopOpen ? "Open" : "Closed"}
+          </Text>
+          <Switch
+            trackColor={{ false: "#767577", true: "#81b0ff" }}
+            thumbColor={isShopOpen ? "#005fec" : "#f4f3f4"}
+            onValueChange={toggleShopStatus}
+            value={isShopOpen}
+          />
+        </View>
+      )
+    });
+  }, [navigation, isShopOpen]);
 
   // This is the function that will be called when the user pulls down to refresh
   const onRefresh = useCallback(() => {
