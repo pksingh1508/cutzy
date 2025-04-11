@@ -122,7 +122,9 @@ const styles = StyleSheet.create({
     padding: 16,
     marginVertical: 8,
     borderRadius: 8,
-    elevation: 1
+    elevation: 1,
+    borderWidth: 2,
+    borderColor: "#bcbfcc"
   },
   userName: {
     fontSize: 16,

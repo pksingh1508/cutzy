@@ -1,14 +1,13 @@
 import { StyleSheet, Text, View, ScrollView, Alert } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
-import { LinearGradient } from "expo-linear-gradient";
+import React, { useEffect, useState } from "react";
 import CustomInput from "@/components/commonUi/CustomInput";
 import CustomButton from "@/components/commonUi/CustomButton";
-import { MaterialIcons } from "@expo/vector-icons";
 import ChooseLocation from "@/components/OnBoarding/ChooseLocation";
 import { supabase } from "@/utils/supabase";
 import { useUserData } from "@/store/useUserData";
-import LottieView from "lottie-react-native";
 import { router } from "expo-router";
+import CustomLoading from "@/components/commonUi/CustomLoading";
+import Colors from "@/constants/Colors";
 
 const EditProfile = () => {
   const [shopName, setShopName] = useState("");
@@ -16,7 +15,6 @@ const EditProfile = () => {
   const [lgt, setLgt] = useState(0.0);
   const [loading, setLoading] = useState(false);
   const { phone } = useUserData();
-  const animation = useRef<LottieView>(null);
 
   const update = async () => {
     setLoading(true);
@@ -65,46 +63,11 @@ const EditProfile = () => {
   }, []);
 
   if (loading) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          alignItems: "center",
-          justifyContent: "center"
-        }}
-      >
-        <LinearGradient
-          colors={[
-            "rgba(205,208,216,255)",
-            "rgba(216,221,229,255)",
-            "rgba(193,196,212,255)"
-          ]}
-          style={styles.background}
-        />
-        <LottieView
-          autoPlay
-          ref={animation}
-          style={{
-            width: "30%",
-            height: "30%"
-          }}
-          source={require("../../assets/images/loading.json")}
-        />
-      </View>
-    );
+    return <CustomLoading />;
   }
 
   return (
     <View style={styles.container}>
-      <LinearGradient
-        colors={[
-          "rgba(205,208,216,255)",
-          "rgba(216,221,229,255)",
-          "rgba(193,196,212,255)"
-        ]}
-        style={styles.background}
-      />
-
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Shop Name</Text>
@@ -130,14 +93,8 @@ const EditProfile = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
-  },
-  background: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    top: 0,
-    height: "100%"
+    flex: 1,
+    backgroundColor: Colors.background
   },
   content: {
     flex: 1,

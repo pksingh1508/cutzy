@@ -11,7 +11,7 @@ const BarberLayout = () => {
         tabBarActiveTintColor: "#3a82f7",
         tabBarInactiveTintColor: "gray",
         tabBarStyle: {
-          backgroundColor: "#f4f4ff",
+          backgroundColor: Colors.background,
           height: 65,
           paddingBottom: 10,
           paddingTop: 10
@@ -24,7 +24,7 @@ const BarberLayout = () => {
           marginBottom: 0
         },
         headerStyle: {
-          backgroundColor: "#f4f4ff"
+          backgroundColor: Colors.background
         },
         headerTitleStyle: {
           color: "#3a82f7",

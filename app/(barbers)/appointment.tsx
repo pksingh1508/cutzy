@@ -116,7 +116,14 @@ const Appointment = () => {
     navigation.setOptions({
       headerTitle: () => (
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Text style={{ fontSize: 18, marginRight: 10, color: "#005fec" }}>
+          <Text
+            style={{
+              fontSize: 18,
+              marginRight: 10,
+              fontWeight: "bold",
+              color: isShopOpen ? "green" : "red"
+            }}
+          >
             {isShopOpen ? "Open" : "Closed"}
           </Text>
           <Switch

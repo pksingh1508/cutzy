@@ -115,10 +115,10 @@ const UpdateBarbers = () => {
         renderItem={({ item }) => (
           <View style={styles.itemContainer}>
             <Text style={{ fontSize: 25, fontFamily: "park-m" }}>
-              {item.name}
+              Name : {item.name}
             </Text>
             <Text style={{ fontSize: 16, fontFamily: "pop-m" }}>
-              {item.phone}
+              Phone : {item.phone}
             </Text>
             <Text style={{ fontSize: 16, fontFamily: "pop-m" }}>
               Experience : {item.experience} years.

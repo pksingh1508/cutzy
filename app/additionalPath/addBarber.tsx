@@ -1,19 +1,18 @@
 import {
   KeyboardAvoidingView,
-  Platform,
   ScrollView,
   StyleSheet,
   Text,
   View
 } from "react-native";
 import React, { useState } from "react";
-import { LinearGradient } from "expo-linear-gradient";
 import CustomInput from "@/components/commonUi/CustomInput";
 import CustomButton from "@/components/commonUi/CustomButton";
 import { addBarberErrorToast, addBarberSuccessToast } from "@/Toasts/allToast";
 import { supabase } from "@/utils/supabase";
 import { useUserData } from "@/store/useUserData";
 import { router } from "expo-router";
+import Colors from "@/constants/Colors";
 
 const AddBarber = () => {
   const [name, setName] = useState("");
@@ -70,14 +69,6 @@ const AddBarber = () => {
 
   return (
     <KeyboardAvoidingView style={styles.container}>
-      <LinearGradient
-        colors={[
-          "rgba(205,208,216,255)",
-          "rgba(216,221,229,255)",
-          "rgba(193,196,212,255)"
-        ]}
-        style={styles.background}
-      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={styles.scrollView}
@@ -134,14 +125,8 @@ const AddBarber = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
-  },
-  background: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    top: 0,
-    height: "100%"
+    flex: 1,
+    backgroundColor: Colors.background
   },
   label: {
     fontSize: 20,

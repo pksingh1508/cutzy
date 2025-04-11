@@ -6,18 +6,7 @@ export default {
   text: "#1A1A1A",
   gray: "#808080",
   background: "#ecedff",
-  light: {
-    text: "#000",
-    background: "#fff",
-    tint: tintColorLight,
-    tabIconDefault: "#ccc",
-    tabIconSelected: tintColorLight
-  },
-  dark: {
-    text: "#fff",
-    background: "#000",
-    tint: tintColorDark,
-    tabIconDefault: "#ccc",
-    tabIconSelected: tintColorDark
-  }
+  bottomTabBackground: "#f4f5fe",
+  borderColor: "#ffffff",
+  background100: "#f4f5fe"
 };

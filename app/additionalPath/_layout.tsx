@@ -1,5 +1,6 @@
 import React from "react";
 import { Stack } from "expo-router";
+import Colors from "@/constants/Colors";
 
 const AdditionalLayout = () => {
   return (
@@ -7,7 +8,7 @@ const AdditionalLayout = () => {
       screenOptions={{
         headerTitleAlign: "center",
         headerStyle: {
-          backgroundColor: "#cdd0d8"
+          backgroundColor: Colors.background
         },
         headerTitleStyle: {
           color: "#3a82f7",
@@ -37,7 +38,7 @@ const AdditionalLayout = () => {
       <Stack.Screen
         name="updateBarber"
         options={{
-          title: "Update Barber"
+          title: "Delete Barber"
         }}
       />
     </Stack>

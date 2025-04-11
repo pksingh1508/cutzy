@@ -1,6 +1,7 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import useAppointmentStore from "@/store/useAppointmentData";
+import Colors from "@/constants/Colors";
 
 interface AppointmentProps {
   barber_id: string | null;
@@ -40,7 +41,9 @@ const Dashboard = () => {
       </View>
       <View style={styles.row}>
         <Text style={styles.label}>Status:</Text>
-        <Text style={styles.value}>{item.status}</Text>
+        <Text style={[styles.value, { color: "green", fontWeight: "bold" }]}>
+          {item.status.toUpperCase()}
+        </Text>
       </View>
     </View>
   );
@@ -83,12 +86,12 @@ const styles = StyleSheet.create({
     marginBottom: 15
   },
   appointmentCard: {
-    backgroundColor: "white",
+    backgroundColor: Colors.background100,
     padding: 15,
     borderRadius: 8,
-    marginBottom: 10,
+    marginBottom: 16,
     borderWidth: 2,
-    borderColor: "#4CAF50",
+    borderColor: Colors.borderColor,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
