@@ -16,7 +16,7 @@ import {
 } from "@clerk/clerk-expo";
 import { router } from "expo-router";
 import { PhoneCodeFactor } from "@clerk/types";
-import { LinearGradient } from "expo-linear-gradient";
+import Colors from "@/constants/Colors";
 
 const LoginPage = () => {
   const [phone, setPhone] = useState("");
@@ -81,14 +81,6 @@ const LoginPage = () => {
 
   return (
     <View style={styles.container}>
-      <LinearGradient
-        colors={[
-          "rgba(206,210,216,255)",
-          "rgba(255,254,254,255)",
-          "rgba(197,200,213,255)"
-        ]}
-        style={styles.background}
-      />
       <SafeAreaView style={styles.safeView}>
         <View>
           <Text style={styles.logo}>TrimFit</Text>
@@ -135,20 +127,14 @@ const LoginPage = () => {
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: Colors.background
   },
   safeView: {
     flex: 1,
     justifyContent: "space-between",
     paddingVertical: 25,
     paddingHorizontal: 25
-  },
-  background: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    top: 0,
-    height: "100%"
   },
   inputView: {
     flexDirection: "row",

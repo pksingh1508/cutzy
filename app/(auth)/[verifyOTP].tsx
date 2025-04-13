@@ -2,7 +2,6 @@ import {
   Alert,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
   ActivityIndicator
@@ -16,6 +15,7 @@ import {
   useSignUp
 } from "@clerk/clerk-expo";
 import { OtpInput } from "react-native-otp-entry";
+import Colors from "@/constants/Colors";
 
 const VerifyOTPPage = () => {
   const { verifyOTP, signin } = useLocalSearchParams<{
@@ -179,6 +179,9 @@ const VerifyOTPPage = () => {
           headerTitleStyle: {
             fontFamily: "park-b",
             fontSize: 20
+          },
+          headerStyle: {
+            backgroundColor: Colors.background
           }
         }}
       />
@@ -232,7 +235,7 @@ const VerifyOTPPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fffefe"
+    backgroundColor: Colors.background
   },
   input: {
     borderWidth: 1,
