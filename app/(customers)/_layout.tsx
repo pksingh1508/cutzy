@@ -71,8 +71,8 @@ const CustomerLayout = () => {
               size={size}
               color={color}
             />
-          )
-          // headerShown: false
+          ),
+          headerShown: false
         }}
       />
       <Tabs.Screen

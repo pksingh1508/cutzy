@@ -1,13 +1,32 @@
-import { Platform, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { Alert, Button, Platform, StyleSheet, Text, View } from "react-native";
+import React, { useCallback, useEffect, useRef } from "react";
 import Colors from "@/constants/Colors";
 import MapView, { Marker } from "react-native-maps";
+import * as Location from "expo-location";
 
 const MapPage = () => {
-  const userLat = 26.716442;
-  const userLgt = 83.448663;
+  const [location, setLocation] =
+    React.useState<Location.LocationObject | null>(null);
+  const userLat = location?.coords.latitude || 26.716442;
+  const userLgt = location?.coords.longitude || 83.448663;
 
-  // get the user location
+  // get the user location from the device using expo-location
+  useEffect(() => {
+    getCurrentUserLocation();
+  }, []);
+
+  const getCurrentUserLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert("Permission to access location was denied");
+      console.log("Permission to access location was denied");
+      return;
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    setLocation(location);
+    console.log("location", location);
+  };
 
   // get all the shop locations from the database
 
@@ -15,12 +34,13 @@ const MapPage = () => {
     <View style={styles.container}>
       <MapView
         style={styles.map}
-        mapType={Platform.OS === "android" ? "standard" : "mutedStandard"}
+        // mapType={Platform.OS === "android" ? "standard" : "mutedStandard"}
+        mapType="hybrid"
         initialRegion={{
-          latitude: 26.716442,
-          longitude: 83.448663,
-          latitudeDelta: 1.0,
-          longitudeDelta: 0.2
+          latitude: userLat || 26.716442,
+          longitude: userLgt || 83.448663,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01
         }}
       >
         <Marker
@@ -31,6 +51,9 @@ const MapPage = () => {
           title="Your Current Location"
         />
       </MapView>
+      <View style={{ flex: 1, position: "absolute" }}>
+        <Text>Hello</Text>
+      </View>
     </View>
   );
 };

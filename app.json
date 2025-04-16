@@ -49,6 +49,12 @@
           },
           "imageWidth": 200
         }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(TrimFit) to use your location."
+        }
       ]
     ],
     "experiments": {
