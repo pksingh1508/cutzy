@@ -7,6 +7,7 @@ import { supabase } from "@/utils/supabase";
 import { SafeAreaView } from "react-native-safe-area-context";
 import useNearByShopStore from "@/store/useNearByShopData";
 import CustomLoading from "../commonUi/CustomLoading";
+import { router } from "expo-router";
 
 const MapContainer = () => {
   const [location, setLocation] =
@@ -87,6 +88,12 @@ const MapContainer = () => {
             }}
             key={index}
             title={shop.shop_name}
+            onPress={() =>
+              router.navigate(
+                `../additionalPathCustomer/${shop.id}?shop_name=${shop.shop_name}&isOpen=${shop.isOpen}`
+              )
+            }
+            pinColor={shop.isOpen ? "green" : "red"}
           />
         ))}
         <Marker

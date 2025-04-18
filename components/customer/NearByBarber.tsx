@@ -9,6 +9,7 @@ import React from "react";
 import useNearByShopStore from "@/store/useNearByShopData";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "@/constants/Colors";
+import { router } from "expo-router";
 
 const NearByBarber = () => {
   const { nearbyShops } = useNearByShopStore();
@@ -25,7 +26,14 @@ const NearByBarber = () => {
           data={nearbyShops}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <TouchableOpacity style={styles.singleShopContainer}>
+            <TouchableOpacity
+              style={styles.singleShopContainer}
+              onPress={() =>
+                router.push(
+                  `../additionalPathCustomer/${item.id}?shop_name=${item.shop_name}&isOpen=${item.isOpen}`
+                )
+              }
+            >
               <Text style={{ fontSize: 18 }}>{item.shop_name}</Text>
               <Text>Phone : {item.phone}</Text>
               <Text>Status : {item.isOpen ? "Open" : "Closed"}</Text>

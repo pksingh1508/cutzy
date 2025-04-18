@@ -103,6 +103,12 @@ const MainLayout = () => {
               headerShown: false
             }}
           />
+          <Stack.Screen
+            name="additionalPathCustomer"
+            options={{
+              headerShown: false
+            }}
+          />
         </Stack>
         <StatusBar style="dark" />
         <Toast />

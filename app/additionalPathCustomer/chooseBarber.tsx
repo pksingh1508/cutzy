@@ -1,11 +1,11 @@
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import Colors from "@/constants/Colors";
 
-const AppointmentPage = () => {
+const ChooseBarber = () => {
   return (
     <View style={styles.container}>
-      <Text>AppointmentPage</Text>
+      <Text>ChooseBarber</Text>
     </View>
   );
 };
@@ -16,4 +16,4 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background
   }
 });
-export default AppointmentPage;
+export default ChooseBarber;
