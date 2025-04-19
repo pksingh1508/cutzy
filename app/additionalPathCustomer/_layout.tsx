@@ -20,9 +20,9 @@ const AdditionalLayoutCustomer = () => {
         }}
       />
       <Stack.Screen
-        name="chooseBarber"
+        name="bookNow"
         options={{
-          title: "Choose Barber",
+          title: "Book Appointment",
           headerTitleAlign: "center",
           headerStyle: {
             backgroundColor: Colors.background

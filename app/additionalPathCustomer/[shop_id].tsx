@@ -4,11 +4,13 @@ import { router, useLocalSearchParams } from "expo-router";
 import Colors from "@/constants/Colors";
 import CustomButton from "@/components/commonUi/CustomButton";
 import { supabase } from "@/utils/supabase";
+import useBarberStoreData from "@/store/useBarberStoreData";
 
 const SingleShop = () => {
   const { shop_id, shop_name, isOpen } = useLocalSearchParams();
   const isOpenBoolean = isOpen === "true" ? true : false;
   const [totalBarbers, setTotalBarbers] = React.useState(0);
+  const { setBarbers } = useBarberStoreData();
 
   useEffect(() => {
     countAllBarbersInShop();
@@ -24,6 +26,7 @@ const SingleShop = () => {
         Alert.alert("Error while fetching total barbers", error.message);
       }
       if (data) {
+        setBarbers(data);
         setTotalBarbers(data.length);
       }
     } catch (error) {
@@ -46,9 +49,7 @@ const SingleShop = () => {
         {isOpenBoolean && (
           <CustomButton
             title="Book Now"
-            onPress={() =>
-              router.navigate(`../additionalPathCustomer/chooseBarber`)
-            }
+            onPress={() => router.navigate(`../additionalPathCustomer/bookNow`)}
             customStyle={{
               marginTop: 20,
               paddingVertical: 15,
